@@ -2,7 +2,7 @@
  * @Author: HideInMatrix
  * @Date: 2024-07-15
  * @LastEditors: HideInMatrix
- * @LastEditTime: 2024-07-17
+ * @LastEditTime: 2024-07-26
  * @Description: 请求封装
  * @FilePath: /next.js-template/lib/customFetch.ts
  */
@@ -57,6 +57,12 @@ const apiClient = <T>(method: HttpMethod) => {
 
     if (method !== "GET" && data) {
       config.body = JSON.stringify(data);
+    } else {
+      const _params = [];
+      for (const [key, value] of Object.entries(data)) {
+        _params.push(`${key}=${value}`);
+      }
+      url += `?${_params.join("&")}`;
     }
 
     const response = await fetch(`${backPreUrl}${urlPreTag}${url}`, config);
